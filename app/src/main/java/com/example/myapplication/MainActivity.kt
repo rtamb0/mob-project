@@ -37,6 +37,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import com.example.myapplication.InfoItem
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,15 +64,34 @@ fun InfoItem(
         }
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun InfoItemPreview() {
+    MyApplicationTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 48.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            InfoItem("Email", "nama@uai.ac.id")
+            InfoItem("Minat", "Mobile Development")
+        }
+    }
+}
 
 @Composable
 fun ProfileHeader(name: String, major: String) {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(24.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.size(80.dp).clip(CircleShape)
+            modifier = Modifier
+                .size(80.dp)
+                .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
@@ -82,11 +102,26 @@ fun ProfileHeader(name: String, major: String) {
         Text(major, style = MaterialTheme.typography.bodyMedium)
     }
 }
+@Preview(showBackground = true)
+@Composable
+fun ProfileHeaderPreview() {
+    MyApplicationTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 48.dp)
+        ) {
+            ProfileHeader("Nama Mahasiswa", "Informatika")
+        }
+    }
+}
 
 @Composable
 fun ProfileScreen() {
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 48.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ProfileHeader("Nama Mahasiswa", "Informatika")
@@ -95,5 +130,12 @@ fun ProfileScreen() {
         Button(onClick = { }) {
             Text("Lihat Portofolio")
         }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    MyApplicationTheme {
+        ProfileScreen()
     }
 }
