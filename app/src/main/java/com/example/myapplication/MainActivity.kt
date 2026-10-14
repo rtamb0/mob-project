@@ -37,42 +37,10 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier
                         .fillMaxSize()
-                        .padding(
-                            start = innerPadding.calculateStartPadding(LocalLayoutDirection.current) + 24.dp,
-                            top = innerPadding.calculateTopPadding() + 24.dp,
-                            end = innerPadding.calculateEndPadding(LocalLayoutDirection.current) + 24.dp,
-                            bottom = innerPadding.calculateBottomPadding() + 24.dp
-                        )) {
-                        var shownList by remember { mutableStateOf(bookList) }
-                        var totalPageCount by remember { mutableIntStateOf(0) }
-
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            FlowRow(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Button(onClick = { shownList = sortBookAlphabetically(shownList) }) {
-                                    Text("Sort A–Z")
-                                }
-                                Button(onClick = { shownList = filterBookByName("Kizumonogatari", shownList) }) {
-                                    Text("Show only Kizumonogatari")
-                                }
-                                Button(onClick = { totalPageCount = sumAllPageCounts(bookList) }) {
-                                    Text("Total page counts")
-                                }
-                                Button(onClick = { shownList = bookList }) {
-                                    Text("Reset")
-                                }
-                            }
-
-                            Text("Total page counts: $totalPageCount")
-
-                            Text("List of Books:")
-                            for (book in shownList) {
-                                Text("${book.name} — ${book.author} Pages ${book.pageCount}")
-                            }
-                        }
+                        .padding(innerPadding),
+                        )
+                    {
+                        Greeting("Android")
                     }
                 }
             }
@@ -88,14 +56,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Composable
-fun Introduction(name: String, nim: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "My name is $name - $nim",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -103,23 +63,3 @@ fun GreetingPreview() {
         Greeting("Android")
     }
 }
-
-data class Book(val name: String, val genre: String, val author: String, val pageCount: Int? = 0)
-
-val bookList = listOf<Book>(
-    Book("Kizumonogatari", "Supernatural", "Nisio Ishin", 278),
-    Book("Re Zero", "Psychological", "Tappei Nagasuki"),
-    Book("Umineko no Naku Koro Ni", "Mystery", "Ryukishi07", 10000),
-    Book("Clannad", "Drama", "Jun Maeda", 8000),
-    Book("Mushoku Tensei", "Adventure", "Rifujin"),
-    Book("Steins;Gate", "Sci-fi", "Nitroplus", 6000),
-    Book("The Amazing Spider-Man Vol.1", "Action", "Stan Lee", 300),
-    Book("And Then There Were None", "Mystery", "Agatha Christie", 400),
-    )
-
-fun filterBookByName (input: String, books: List<Book>) : List<Book> = books.filter({ book -> book.name == input })
-
-fun sortBookAlphabetically (books: List<Book>) : List<Book> = books.sortedBy { it.name.lowercase() }
-
-fun sumAllPageCounts (books: List<Book>): Int =
-    books.fold(0) { acc, book -> acc + (book.pageCount ?: 0) }
