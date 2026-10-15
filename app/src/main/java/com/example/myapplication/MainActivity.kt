@@ -66,8 +66,11 @@ fun InfoItem(
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp)) {
-            Text(label, style = MaterialTheme.typography.labelMedium)
+        Column(
+            Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(label, style = MaterialTheme.typography.headlineMedium)
             Text(value, style = MaterialTheme.typography.bodyLarge)
         }
     }
@@ -82,8 +85,21 @@ fun InfoItemPreview() {
                 .padding(horizontal = 16.dp, vertical = 48.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            InfoItem("Email", "nama@uai.ac.id")
-            InfoItem("Minat", "Mobile Development")
+            InfoItem(
+                "About",
+                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
+            )
+            InfoItem(
+                "Aktivitas",
+                """
+                    Aktivitas yang kami lakukan adalah:
+                    - Main co-op bareng
+                    - 1v1 di fighting game
+                    - Sharing session
+                    - Kumpul bareng di event game/serupanya
+                    - dan seterusnya!
+                    """.trimIndent()
+            )
         }
     }
 }
@@ -132,15 +148,31 @@ fun PageHeaderPreview() {
 fun ProfileScreen() {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 48.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         PageHeader()
-        InfoItem("Email", "nama@uai.ac.id")
-        InfoItem("Minat", "Mobile Development")
-        Button(onClick = { }) {
-            Text("Lihat Portofolio")
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            InfoItem(
+                "About",
+                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
+            )
+            InfoItem(
+                "Aktivitas",
+                """
+                Aktivitas yang kami lakukan adalah:
+                - Main co-op bareng
+                - 1v1 di fighting game
+                - Sharing session
+                - Kumpul bareng di event game/serupanya
+                - dan seterusnya!
+            """.trimIndent()
+            )
         }
     }
 }
