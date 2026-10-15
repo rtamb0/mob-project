@@ -93,7 +93,7 @@ fun InfoItemPreview() {
         ) {
             InfoItem(
                 "About",
-                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
+                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa IF UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
             )
             InfoItem(
                 "Aktivitas",
@@ -196,7 +196,7 @@ fun ProfileScreen() {
         ) {
             InfoItem(
                 "About",
-                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
+                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa IF UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
             )
             InfoItem(
                 "Aktivitas",
