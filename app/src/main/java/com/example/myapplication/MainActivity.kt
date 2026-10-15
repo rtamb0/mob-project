@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +38,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.example.myapplication.InfoItem
 
 class MainActivity : ComponentActivity() {
@@ -81,37 +84,34 @@ fun InfoItemPreview() {
 }
 
 @Composable
-fun ProfileHeader(name: String, major: String) {
+fun PageHeader() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+            .padding(24.dp)) {
         Box(
             modifier = Modifier
-                .size(80.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            Text(name.take(2).uppercase())
+            Text(
+                "Komunitas Gaming IF UAI",
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign=TextAlign.Center
+            )
         }
-        Spacer(Modifier.height(12.dp))
-        Text(name, style = MaterialTheme.typography.headlineSmall)
-        Text(major, style = MaterialTheme.typography.bodyMedium)
     }
 }
 @Preview(showBackground = true)
 @Composable
-fun ProfileHeaderPreview() {
+fun PageHeaderPreview() {
     MyApplicationTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp, vertical = 48.dp)
         ) {
-            ProfileHeader("Nama Mahasiswa", "Informatika")
+            PageHeader()
         }
     }
 }
@@ -124,7 +124,7 @@ fun ProfileScreen() {
             .padding(horizontal = 16.dp, vertical = 48.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        ProfileHeader("Nama Mahasiswa", "Informatika")
+        PageHeader()
         InfoItem("Email", "nama@uai.ac.id")
         InfoItem("Minat", "Mobile Development")
         Button(onClick = { }) {
