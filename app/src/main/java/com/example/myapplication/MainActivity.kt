@@ -145,6 +145,34 @@ fun PageHeaderPreview() {
 }
 
 @Composable
+fun ActionCard () {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Tunggu apa lagi? Daftar sekarang di sini!", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
+            Button(onClick = { /* */ }, content = {Text("Daftar Sekarang!")})
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ActionCardPreview() {
+    MyApplicationTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 48.dp),
+        ) {
+            ActionCard()
+        }
+    }
+}
+
+@Composable
 fun ProfileScreen() {
     Column(
         modifier = Modifier
