@@ -85,21 +85,20 @@ fun InfoItemPreview() {
 
 @Composable
 fun PageHeader() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "Komunitas Gaming IF UAI",
-                style = MaterialTheme.typography.headlineLarge,
-                textAlign=TextAlign.Center
-            )
-        }
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            "Komunitas Gaming IF UAI",
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign=TextAlign.Center
+        )
+        Text(
+            "Selamat datang! Di sini anda bisa menemukan berbagai informasi tentang komunitas kami, serta juga bisa mendaftarkan diri di sini!",
+            textAlign = TextAlign.Center
+        )
     }
 }
 @Preview(showBackground = true)
