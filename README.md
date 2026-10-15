@@ -1,12 +1,12 @@
-# Aplikasi Profil Komunitas Gaming IF UAI
+# Aplikasi Komunitas Gaming IF UAI
 
-Aplikasi Android berbasis **Jetpack Compose** yang menampilkan halaman profil dan informasi mengenai **Komunitas Gaming IF UAI**.
+Aplikasi Android berbasis **Jetpack Compose** yang menampilkan halaman utama dan informasi mengenai **Komunitas Gaming IF UAI**.
 
 ---
 
 ## 1. Tujuan Aplikasi
 
-Aplikasi ini dibuat sebagai media informasi dan profil untuk **Komunitas Gaming IF UAI** (Informatika Universitas Al Azhar Indonesia). Tujuan utama aplikasi meliputi:
+Aplikasi ini dibuat sebagai media informasi untuk **Komunitas Gaming IF UAI** (Informatika Universitas Al Azhar Indonesia). Tujuan utama aplikasi meliputi:
 * **Memperkenalkan Komunitas**: Menjelaskan profil dan latar belakang komunitas gaming bagi mahasiswa Informatika UAI.
 * **Informasi Aktivitas**: Menampilkan daftar kegiatan rutin komunitas, seperti main *co-op* bareng, 1v1 *fighting game*, *sharing session*, hingga kumpul di *event game*.
 * **Pendaftaran Anggota**: Menyediakan tombol ajakan bertindak (*call-to-action*) bagi mahasiswa yang tertarik untuk mendaftarkan diri.
@@ -48,8 +48,8 @@ Aplikasi ini dibuat sebagai media informasi dan profil untuk **Komunitas Gaming 
 
 Antarmuka pengguna (UI) dibangun menggunakan **Jetpack Compose** di [MainActivity.kt](app/src/main/java/com/example/myapplication/MainActivity.kt) dengan struktur komponen `@Composable` sebagai berikut:
 
-* **`ProfileScreen()`**  
-  * **Fungsi**: Kontainer utama layar profil.  
+* **`LayoutScreen()`**  
+  * **Fungsi**: Kontainer utama layar layout.  
   * **Detail**: Menggunakan layout `Column` berskorl (`verticalScroll`) yang membungkus komponen `PageHeader`, `InfoItem` (About & Aktivitas), dan `ActionCard`. Juga menerapkan `navigationBarsPadding()` agar aman dari *insets* sistem bar.
 
 * **`PageHeader()`**  
