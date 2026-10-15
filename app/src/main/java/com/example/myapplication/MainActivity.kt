@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +38,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.example.myapplication.InfoItem
 
@@ -85,33 +90,41 @@ fun InfoItemPreview() {
 
 @Composable
 fun PageHeader() {
-    Column(modifier = Modifier
+    Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        Text(
-            "Komunitas Gaming IF UAI",
-            style = MaterialTheme.typography.headlineLarge,
-            textAlign=TextAlign.Center
+        ) {
+        Image(
+            painter = painterResource(R.drawable.header_background),
+            contentDescription = "Image of The World Ends With You",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+                .blur(radius = 8.dp)
         )
-        Text(
-            "Selamat datang! Di sini anda bisa menemukan berbagai informasi tentang komunitas kami, serta juga bisa mendaftarkan diri di sini!",
-            textAlign = TextAlign.Center
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                "Komunitas Gaming IF UAI",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                "Selamat datang! Di sini anda bisa menemukan berbagai informasi tentang komunitas kami, serta juga bisa mendaftarkan diri di sini!",
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
+        }
     }
 }
 @Preview(showBackground = true)
 @Composable
 fun PageHeaderPreview() {
     MyApplicationTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 48.dp)
-        ) {
-            PageHeader()
-        }
+        PageHeader()
     }
 }
 
