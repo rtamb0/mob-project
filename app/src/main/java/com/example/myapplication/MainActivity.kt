@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                ProfileScreen()
+                LayoutScreen()
             }
         }
     }
@@ -155,7 +155,7 @@ fun ActionCardPreview() {
 }
 
 @Composable
-fun ProfileScreen() {
+fun LayoutScreen() {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -191,8 +191,8 @@ fun ProfileScreen() {
 }
 @Preview(showBackground = true)
 @Composable
-fun ProfileScreenPreview() {
+fun LayoutScreenPreview() {
     MyApplicationTheme {
-        ProfileScreen()
+        LayoutScreen()
     }
 }
