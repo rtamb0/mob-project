@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
@@ -23,9 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 
@@ -49,19 +52,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-class Book {
-    val title: String
-    val author: String
-    val genre: String
+data class Book (
+    val title: String,
+    val author: String,
+    val genre: String,
     val read: Boolean
-
-    constructor(title: String, author: String, genre: String, read: Boolean) {
-        this.title = title
-        this.author = author
-        this.genre = genre
-        this.read = read
-    }
-}
+)
 
 @Composable
 fun AppHeader() {
@@ -94,18 +90,26 @@ fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
     }
 }
 
-//@Composable
-//fun BookRow(books: List<Book>) {
-//    FlowRow(modifier = Modifier.fillMaxWidth()) {
-//        books
-//    }
-//})
+@Composable
+fun BookGrid(books: List<Book>, onReadChange: (Boolean) -> Unit) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), content = {
+        items(books.size) { index ->
+            BookCard(book = books[index], onReadChange = onReadChange)
+        }
+    })
+}
 
 @Composable
 fun AppBody() {
+    var bookList = rememberSaveable { mutableStateListOf(
+        Book("Kizumonogatari", "Nisio Isin", "Supernatural", true),
+        Book("And Then There Were None", "Agatha Christie", "Mystery", false),
+        Book("Lord of the Rings", "J.R.R. Tolkien", "Fantasy", true),
+        Book("The Alchemist", "Paulo Coelho", "Adventure", false),
+    )  }
     Column(modifier = Modifier.fillMaxSize()) {
         AddButton()
-        BookCard(book = Book("Title", "Author", "Genre", true), onReadChange = { /* aksi baca */ })
+        BookGrid(bookList)
     }
 }
 
