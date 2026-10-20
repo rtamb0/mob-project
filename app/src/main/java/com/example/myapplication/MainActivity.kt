@@ -4,30 +4,30 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.blur
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,164 +35,137 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                LayoutScreen()
+                Scaffold(topBar = { AppHeader() }, modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        AppBody()
+                    }
+                }
             }
         }
     }
 }
 
+class Book {
+    val title: String
+    val author: String
+    val genre: String
+    val read: Boolean
+
+    constructor(title: String, author: String, genre: String, read: Boolean) {
+        this.title = title
+        this.author = author
+        this.genre = genre
+        this.read = read
+    }
+}
+
 @Composable
-fun InfoItem(
-    label: String,
-    value: String,
-    modifier: Modifier = Modifier
+fun AppHeader() {
+    Row(modifier = Modifier.fillMaxWidth()
+        .padding(16.dp),) {
+        Text("Reading Tracker")
+    }
+}
+
+@Composable
+fun AddButton() {
+    Button(onClick = { /* aksi tambah */ }) {
+        Text("Tambah")
+    }
+}
+
+@Composable
+fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
+    Card {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(book.title, style = MaterialTheme.typography.headlineSmall)
+                Checkbox(book.read, onReadChange)
+            }
+            Column {
+                Text(book.author)
+                Text(book.genre)
+            }
+        }
+    }
+}
+
+//@Composable
+//fun BookRow(books: List<Book>) {
+//    FlowRow(modifier = Modifier.fillMaxWidth()) {
+//        books
+//    }
+//})
+
+@Composable
+fun AppBody() {
+    Column(modifier = Modifier.fillMaxSize()) {
+        AddButton()
+        BookCard(book = Book("Title", "Author", "Genre", true), onReadChange = { /* aksi baca */ })
+    }
+}
+
+@Composable
+fun NotificationSwitch(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
 ) {
-    Card(modifier = modifier.fillMaxWidth()) {
-        Column(
-            Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(label, style = MaterialTheme.typography.headlineMedium)
-            Text(value, style = MaterialTheme.typography.bodyLarge)
-        }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun InfoItemPreview() {
-    MyApplicationTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 48.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            InfoItem(
-                "About",
-                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa IF UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
-            )
-            InfoItem(
-                "Aktivitas",
-                """
-                    Aktivitas yang kami lakukan adalah:
-                    - Main co-op bareng
-                    - 1v1 di fighting game
-                    - Sharing session
-                    - Kumpul bareng di event game/serupanya
-                    - dan seterusnya!
-                    """.trimIndent()
-            )
-        }
-    }
-}
-
-@Composable
-fun PageHeader() {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        ) {
-        Image(
-            painter = painterResource(R.drawable.header_background),
-            contentDescription = "Image of The World Ends With You",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
-                .blur(radius = 8.dp)
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("Aktifkan notifikasi")
+        Switch(
+            checked = checked,
+            onCheckedChange = onCheckedChange
         )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 48.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                "Komunitas Gaming IF UAI",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                "Selamat datang! Di sini anda bisa menemukan berbagai informasi tentang komunitas kami, serta juga bisa mendaftarkan diri di sini!",
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSecondary
-            )
-        }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun PageHeaderPreview() {
-    MyApplicationTheme {
-        PageHeader()
     }
 }
 
 @Composable
-fun ActionCard () {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(
-            Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Tunggu apa lagi? Daftar sekarang di sini!", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
-            Button(onClick = { /* */ }, content = {Text("Daftar Sekarang!")})
-        }
-    }
-}
+fun InteractiveProfileScreen() {
+    var name by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var notificationEnabled by rememberSaveable { mutableStateOf(false) }
 
-@Preview(showBackground = true)
-@Composable
-fun ActionCardPreview() {
-    MyApplicationTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 48.dp),
-        ) {
-            ActionCard()
-        }
-    }
-}
+    val isValid = name.length >= 3 && email.contains("@")
 
-@Composable
-fun LayoutScreen() {
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
-            .verticalScroll(scrollState)
+            .padding(horizontal = 24.dp, vertical = 48.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        PageHeader()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Nama") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        NotificationSwitch(
+            checked = notificationEnabled,
+            onCheckedChange = { notificationEnabled = it }
+        )
+
+        Button(
+            enabled = isValid,
+            onClick = { /* aksi simpan */ },
+            modifier = Modifier.fillMaxWidth()
         ) {
-            InfoItem(
-                "About",
-                "Komunitas Gaming IF UAI merupakan komunitas untuk mahasiswa IF UAI yang hobi dengan main game. Di komunitas ini, kami mempunyai aktivitas main bareng, serta juga sharing session di mana kami sharing sudah main apa saja. Komunitas ini open untuk pemain genre apa saja, mulai dari action, RPG, fighting game, sports, dan seterusnya."
-            )
-            InfoItem(
-                "Aktivitas",
-                """
-                Aktivitas yang kami lakukan adalah:
-                - Main co-op bareng
-                - 1v1 di fighting game
-                - Sharing session
-                - Kumpul bareng di event game/serupanya
-                - dan seterusnya!
-            """.trimIndent()
-            )
-            ActionCard()
+            Text("Simpan")
         }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun LayoutScreenPreview() {
-    MyApplicationTheme {
-        LayoutScreen()
     }
 }
