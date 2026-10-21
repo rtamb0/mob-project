@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.draw.scale
@@ -71,6 +72,7 @@ class MainActivity : ComponentActivity() {
 
 @Parcelize
 data class Book (
+    val id: Int,
     val title: String,
     val author: String,
     val genre: String,
@@ -88,7 +90,7 @@ fun AppHeader() {
 }
 
 @Composable
-fun AddButton(onSubmit: (Book) -> Boolean) {
+fun AddButton(onSubmit: (Book) -> Boolean, lastId: Int) {
     var showDialog by remember { mutableStateOf(false) }
 
     var title by rememberSaveable { mutableStateOf("") }
@@ -120,7 +122,7 @@ fun AddButton(onSubmit: (Book) -> Boolean) {
                 Button(
                     enabled = isValid,
                     onClick = {
-                        onSubmit(Book(title, author, genre, isRead))
+                        onSubmit(Book(lastId, title, author, genre, isRead))
                         title = ""; author = ""; genre = ""; isRead = false
                         showDialog = false
                     }
@@ -160,13 +162,13 @@ fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
 }
 
 @Composable
-fun BookGrid(books: List<Book>, onReadChange: (Int) -> Unit) {
+fun BookGrid(books: List<Book>, onReadChange: (Int) -> Unit?) {
     LazyVerticalGrid(columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         content = {
         items(books.size) { index ->
-            BookCard(book = books[index], onReadChange = { onReadChange(index) })
+            BookCard(book = books[index], onReadChange = { onReadChange(books[index].id) })
         }
     })
 }
@@ -180,15 +182,32 @@ fun AppBody() {
         )
     ) {
         mutableStateListOf(
-            Book("Kizumonogatari", "Nisio Isin", "Supernatural", true),
-            Book("And Then There Were None", "Agatha Christie", "Mystery", false),
-            Book("Lord of the Rings", "J.R.R. Tolkien", "Fantasy", true),
-            Book("The Alchemist", "Paulo Coelho", "Adventure", false),
+            Book(1,"Kizumonogatari", "Nisio Isin", "Supernatural", true),
+            Book(2, "And Then There Were None", "Agatha Christie", "Mystery", false),
+            Book(3, "Lord of the Rings", "J.R.R. Tolkien", "Fantasy", true),
+            Book(4, "The Alchemist", "Paulo Coelho", "Adventure", false),
         )
     }
 
-    val onReadChange = { index: Int ->
-        bookList[index] = bookList[index].copy(read = !bookList[index].read)
+    val sortedBooks by remember {
+        derivedStateOf {
+            bookList.sortedBy { it.read }
+        }
+    }
+
+    val lastId by remember {
+        derivedStateOf {
+            bookList.lastOrNull()?.id ?: 0
+        }
+    }
+
+    val onReadChange = { id: Int ->
+        val index = bookList.indexOfFirst { it.id == id }
+
+        if (index != -1) {
+            val book = bookList[index]
+            bookList[index] = book.copy(read = !book.read)
+        }
     }
 
     val onSubmit = { book: Book -> bookList.add(book) }
@@ -198,8 +217,8 @@ fun AppBody() {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AddButton(onSubmit)
-        BookGrid(bookList, onReadChange)
+        AddButton(onSubmit, lastId)
+        BookGrid(sortedBooks, onReadChange)
     }
 }
 
