@@ -31,6 +31,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import android.os.Parcelable
+import androidx.compose.runtime.saveable.listSaver
+import kotlinx.parcelize.Parcelize
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,12 +55,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Parcelize
 data class Book (
     val title: String,
     val author: String,
     val genre: String,
     val read: Boolean
-)
+) : Parcelable
 
 @Composable
 fun AppHeader() {
@@ -91,25 +95,37 @@ fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
 }
 
 @Composable
-fun BookGrid(books: List<Book>, onReadChange: (Boolean) -> Unit) {
+fun BookGrid(books: List<Book>, onReadChange: (Int) -> Unit) {
     LazyVerticalGrid(columns = GridCells.Fixed(3), content = {
         items(books.size) { index ->
-            BookCard(book = books[index], onReadChange = onReadChange)
+            BookCard(book = books[index], onReadChange = { onReadChange(index) })
         }
     })
 }
 
 @Composable
 fun AppBody() {
-    var bookList = rememberSaveable { mutableStateListOf(
-        Book("Kizumonogatari", "Nisio Isin", "Supernatural", true),
-        Book("And Then There Were None", "Agatha Christie", "Mystery", false),
-        Book("Lord of the Rings", "J.R.R. Tolkien", "Fantasy", true),
-        Book("The Alchemist", "Paulo Coelho", "Adventure", false),
-    )  }
+    val bookList = rememberSaveable(
+        saver = listSaver(
+            save = { it.toList() },
+            restore = { mutableStateListOf(*it.toTypedArray()) }
+        )
+    ) {
+        mutableStateListOf(
+            Book("Kizumonogatari", "Nisio Isin", "Supernatural", true),
+            Book("And Then There Were None", "Agatha Christie", "Mystery", false),
+            Book("Lord of the Rings", "J.R.R. Tolkien", "Fantasy", true),
+            Book("The Alchemist", "Paulo Coelho", "Adventure", false),
+        )
+    }
+
+    val onReadChange = { index: Int ->
+        bookList[index] = bookList[index].copy(read = !bookList[index].read)
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         AddButton()
-        BookGrid(bookList)
+        BookGrid(bookList, onReadChange)
     }
 }
 
