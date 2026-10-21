@@ -32,8 +32,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import android.os.Parcelable
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.parcelize.Parcelize
 
 class MainActivity : ComponentActivity() {
@@ -42,11 +45,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Scaffold(topBar = { AppHeader() }, modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    topBar = { AppHeader() },
+                    modifier = Modifier.fillMaxSize()
+                        .padding(horizontal = 16.dp)
+                ) { innerPadding ->
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(innerPadding)
+                            .padding(
+                                start = innerPadding.calculateStartPadding(LayoutDirection.Ltr),
+                                end = innerPadding.calculateEndPadding(LayoutDirection.Ltr),
+                                bottom = innerPadding.calculateBottomPadding(),
+                                top = innerPadding.calculateTopPadding() + 16.dp
+                            )
                     ) {
                         AppBody()
                     }
@@ -67,7 +79,7 @@ data class Book (
 @Composable
 fun AppHeader() {
     Row(modifier = Modifier.fillMaxWidth()
-        .padding(16.dp),) {
+        .padding(top = 48.dp, bottom = 16.dp),) {
         Text("Reading Tracker")
     }
 }
@@ -127,7 +139,7 @@ fun AppBody() {
         bookList[index] = bookList[index].copy(read = !bookList[index].read)
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         AddButton()
         BookGrid(bookList, onReadChange)
     }
