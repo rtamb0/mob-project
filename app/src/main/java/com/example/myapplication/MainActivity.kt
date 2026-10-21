@@ -79,8 +79,10 @@ data class Book (
 @Composable
 fun AppHeader() {
     Row(modifier = Modifier.fillMaxWidth()
-        .padding(top = 48.dp, bottom = 16.dp),) {
-        Text("Reading Tracker")
+        .background(MaterialTheme.colorScheme.secondary)
+        .padding(top = 48.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)
+    ) {
+        Text("Reading Tracker", color = MaterialTheme.colorScheme.onSecondary, style = MaterialTheme.typography.titleLarge)
     }
 }
 
