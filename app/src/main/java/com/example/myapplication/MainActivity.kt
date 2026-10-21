@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import android.os.Parcelable
 import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.ui.draw.scale
 import kotlinx.parcelize.Parcelize
 
 class MainActivity : ComponentActivity() {
@@ -81,14 +82,14 @@ fun AddButton() {
 @Composable
 fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
     Card {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(book.title, style = MaterialTheme.typography.headlineSmall)
-                Checkbox(book.read, onReadChange)
+                Text(book.title, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                Checkbox(book.read, onReadChange,  modifier = Modifier.scale(0.8f) )
             }
-            Column {
-                Text(book.author)
-                Text(book.genre)
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Text(book.author, style = MaterialTheme.typography.bodySmall)
+                Text(book.genre, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
@@ -96,7 +97,10 @@ fun BookCard(book: Book, onReadChange: (Boolean) -> Unit) {
 
 @Composable
 fun BookGrid(books: List<Book>, onReadChange: (Int) -> Unit) {
-    LazyVerticalGrid(columns = GridCells.Fixed(3), content = {
+    LazyVerticalGrid(columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        content = {
         items(books.size) { index ->
             BookCard(book = books[index], onReadChange = { onReadChange(index) })
         }
