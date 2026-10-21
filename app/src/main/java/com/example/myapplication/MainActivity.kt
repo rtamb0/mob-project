@@ -35,8 +35,12 @@ import android.os.Parcelable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.parcelize.Parcelize
 
@@ -85,8 +89,56 @@ fun AppHeader() {
 
 @Composable
 fun AddButton() {
-    Button(onClick = { /* aksi tambah */ }) {
-        Text("Tambah")
+    var showDialog by remember { mutableStateOf(false) }
+
+    var title by rememberSaveable { mutableStateOf("") }
+    var author by rememberSaveable { mutableStateOf("") }
+    var genre by rememberSaveable { mutableStateOf("") }
+    var isRead by rememberSaveable { mutableStateOf(false) }
+
+    val isValid = title.isNotBlank() && author.isNotBlank() && genre.isNotBlank()
+
+    Button(onClick = { showDialog = true }) {
+        Text("Add")
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Add New Book") },
+            text = { AddBookForm(
+                title = title,
+                onTitleChange = { title = it },
+                author = author,
+                onAuthorChange = { author = it },
+                genre = genre,
+                onGenreChange = { genre = it },
+                isRead = isRead,
+                onIsReadChange = { isRead = it }
+            ) },
+            confirmButton = {
+                Button(
+                    enabled = isValid,
+                    onClick = {
+                        title = ""; author = ""; genre = ""; isRead = false
+                        showDialog = false
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary
+                    )
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 
@@ -149,62 +201,49 @@ fun AppBody() {
 }
 
 @Composable
-fun NotificationSwitch(
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+fun AddBookForm(
+    title: String,
+    onTitleChange: (String) -> Unit,
+    author: String,
+    onAuthorChange: (String) -> Unit,
+    genre: String,
+    onGenreChange: (String) -> Unit,
+    isRead: Boolean,
+    onIsReadChange: (Boolean) -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text("Aktifkan notifikasi")
-        Switch(
-            checked = checked,
-            onCheckedChange = onCheckedChange
-        )
-    }
-}
-
-@Composable
-fun InteractiveProfileScreen() {
-    var name by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var notificationEnabled by rememberSaveable { mutableStateOf(false) }
-
-    val isValid = name.length >= 3 && email.contains("@")
-
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 48.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Nama") },
+            value = title,
+            onValueChange = onTitleChange,
+            label = { Text("Book Title") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
+            value = author,
+            onValueChange = onAuthorChange,
+            label = { Text("Author") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        NotificationSwitch(
-            checked = notificationEnabled,
-            onCheckedChange = { notificationEnabled = it }
+        OutlinedTextField(
+            value = genre,
+            onValueChange = onGenreChange,
+            label = { Text("Genre") },
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Button(
-            enabled = isValid,
-            onClick = { /* aksi simpan */ },
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Simpan")
+            Text("Is read?")
+            Checkbox(isRead, onIsReadChange)
         }
     }
 }
