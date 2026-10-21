@@ -88,7 +88,7 @@ fun AppHeader() {
 }
 
 @Composable
-fun AddButton() {
+fun AddButton(onSubmit: (Book) -> Boolean) {
     var showDialog by remember { mutableStateOf(false) }
 
     var title by rememberSaveable { mutableStateOf("") }
@@ -120,6 +120,7 @@ fun AddButton() {
                 Button(
                     enabled = isValid,
                     onClick = {
+                        onSubmit(Book(title, author, genre, isRead))
                         title = ""; author = ""; genre = ""; isRead = false
                         showDialog = false
                     }
@@ -190,12 +191,14 @@ fun AppBody() {
         bookList[index] = bookList[index].copy(read = !bookList[index].read)
     }
 
+    val onSubmit = { book: Book -> bookList.add(book) }
+
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AddButton()
+        AddButton(onSubmit)
         BookGrid(bookList, onReadChange)
     }
 }
