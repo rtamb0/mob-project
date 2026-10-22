@@ -122,7 +122,7 @@ fun AddButton(onSubmit: (Book) -> Boolean, lastId: Int) {
                 Button(
                     enabled = isValid,
                     onClick = {
-                        onSubmit(Book(lastId, title, author, genre, isRead))
+                        onSubmit(Book(lastId + 1, title, author, genre, isRead))
                         title = ""; author = ""; genre = ""; isRead = false
                         showDialog = false
                     }
