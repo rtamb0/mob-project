@@ -1,67 +1,77 @@
-# Aplikasi Profil Komunitas Gaming IF UAI
+# Reading Tracker Application
 
-Aplikasi Android berbasis **Jetpack Compose** yang menampilkan halaman profil dan informasi mengenai **Komunitas Gaming IF UAI**.
-
----
-
-## 1. Tujuan Aplikasi
-
-Aplikasi ini dibuat sebagai media informasi dan profil untuk **Komunitas Gaming IF UAI** (Informatika Universitas Al Azhar Indonesia). Tujuan utama aplikasi meliputi:
-* **Memperkenalkan Komunitas**: Menjelaskan profil dan latar belakang komunitas gaming bagi mahasiswa Informatika UAI.
-* **Informasi Aktivitas**: Menampilkan daftar kegiatan rutin komunitas, seperti main *co-op* bareng, 1v1 *fighting game*, *sharing session*, hingga kumpul di *event game*.
-* **Pendaftaran Anggota**: Menyediakan tombol ajakan bertindak (*call-to-action*) bagi mahasiswa yang tertarik untuk mendaftarkan diri.
+Aplikasi Android berbasis **Jetpack Compose** dan **Material 3** untuk mencatat dan mengelola daftar bacaan buku (**Reading Tracker**).
 
 ---
 
-## 2. Cara Menjalankan
+## 1. Tentang Aplikasi
+
+**Reading Tracker** adalah aplikasi seluler sederhana yang dirancang untuk membantu pengguna melacak buku-buku yang sedang atau telah dibaca. Aplikasi ini memberikan antarmuka pengguna yang responsif, modern, dan bersih menggunakan **Jetpack Compose**.
+
+### Fitur Utama
+* 📚 **Daftar Buku (Grid View)**: Menampilkan koleksi buku dalam tata letak kisi 2 kolom (`LazyVerticalGrid`) yang rapi.
+* ➕ **Tambah Buku Baru**: Modal dialog (`AlertDialog`) interaktif untuk menambahkan buku baru lengkap dengan Judul (*Title*), Penulis (*Author*), Genre (*Genre*), dan Status Baca.
+* ✅ **Melacak Status Baca**: Pengguna dapat dengan mudah mengubah status baca (*Is Read*) melalui *Checkbox* pada setiap kartu buku.
+* 🔄 **Pengurutan Otomatis**: Buku diurutkan secara dinamis berdasarkan status pembacaannya.
+* 💾 **State Retention**: Menggunakan `rememberSaveable` dengan `listSaver` sehingga data daftar buku tetap tersimpan dan tidak hilang saat rotasi layar atau pemulihan *activity*.
+
+---
+
+## 2. Struktur Komponen & Kode Utama
+
+Seluruh antarmuka pengguna dibangun secara deklaratif menggunakan Jetpack Compose di [MainActivity.kt](app/src/main/java/com/example/myapplication/MainActivity.kt).
+
+### Data Model
+* **`Book`**  
+  `Parcelable` data class yang merepresentasikan data buku:
+  * `id`: ID unik buku (`Int`).
+  * `title`: Judul buku (`String`).
+  * `author`: Penulis buku (`String`).
+  * `genre`: Genre buku (`String`).
+  * `read`: Status apakah buku sudah dibaca (`Boolean`).
+
+### Komponen Composable
+* **`AppHeader()`**  
+  Header aplikasi di bagian atas layar yang menampilkan judul *"Reading Tracker"* dengan latar belakang tema sekunder.
+* **`AppBody()`**  
+  Kontainer utama layar yang mengelola *state* daftar buku (`bookList`), mengurutkan daftar buku, serta menyediakan *handler* untuk penambahan dan pembaruan status baca buku.
+* **`BookGrid(books: List<Book>, onReadChange: (Int) -> Unit?)`**  
+  Menampilkan daftar buku dalam bentuk kisi 2 kolom menggunakan `LazyVerticalGrid`.
+* **`BookCard(book: Book, onReadChange: (Boolean) -> Unit)`**  
+  Kartu (`Card`) individual yang menampilkan detail informasi buku (Judul, Penulis, Genre) serta *Checkbox* untuk mengubah status baca.
+* **`AddButton(onSubmit: (Book) -> Boolean, lastId: Int)`**  
+  Tombol untuk membuka dialog modal penambahan buku baru (`AddBookForm`). Memiliki validasi input sehingga tombol konfirmasi hanya aktif jika seluruh bidang teks diisi.
+* **`AddBookForm(...)`**  
+  Formulir dalam dialog modal yang berisi beberapa `OutlinedTextField` (Judul, Penulis, Genre) dan `Checkbox` untuk status baca.
+
+---
+
+## 3. Cara Menjalankan
 
 ### Prasyarat
-* **Android Studio**: Versi terbaru (direkomendasikan Android Studio Ladybug atau yang lebih baru).
-* **Java Development Kit (JDK)**: JDK 11 atau lebih baru.
-* **Perangkat / Emulator**: Perangkat Android fisik atau Emulator dengan Minimum SDK Level 24 (Android 7.0 Nougat).
+* **Android Studio**: Android Studio Ladybug atau versi yang lebih baru.
+* **JDK**: Java Development Kit (JDK) 11 atau lebih baru.
+* **Min SDK**: Level 24 (Android 7.0 Nougat) atau lebih baru.
+* **Target / Compile SDK**: Level 37 / Android 15.
 
 ### Langkah-Langkah
 
 1. **Buka Project**  
-   Buka aplikasi Android Studio, pilih **Open**, lalu pilih folder direktori project ini (`mob-project`).
+   Buka Android Studio, pilih **Open**, lalu arahkan ke direktori project ini.
 
 2. **Sinkronisasi Gradle**  
-   Tunggu hingga proses *Gradle Sync* selesai. Jika tidak berjalan otomatis, klik **File > Sync Project with Gradle Files**.
+   Tunggu hingga proses *Gradle Sync* selesai (atau pilih **File > Sync Project with Gradle Files**).
 
 3. **Jalankan Aplikasi**  
-   * Hubungkan perangkat Android fisik via USB (*USB Debugging* aktif) atau jalankan **Android Virtual Device (AVD) / Emulator**.
-   * Pastikan konfigurasi *Run* memilih modul **`app`**.
-   * Klik tombol **Run** (ikon ▶️) atau tekan tombol keyboard `Shift + F10`.
+   * Hubungkan perangkat Android fisik (dengan *USB Debugging* aktif) atau jalankan **Android Virtual Device (AVD)**.
+   * Pastikan konfigurasi *Run* mengarah pada modul **`app`**.
+   * Klik tombol **Run** (▶️) atau tekan `Shift + F10`.
 
-4. **Menjalankan via Terminal / CLI (Opsional)**  
+4. **Menjalankan via Command Line (CLI)**  
    ```bash
-   # Melakukan build APK Debug
+   # Build APK Debug
    ./gradlew assembleDebug
 
-   # Meng-install APK langsung ke perangkat/emulator
+   # Install APK ke perangkat/emulator
    ./gradlew installDebug
    ```
-
----
-
-## 3. Struktur Composable Utama
-
-Antarmuka pengguna (UI) dibangun menggunakan **Jetpack Compose** di [MainActivity.kt](app/src/main/java/com/example/myapplication/MainActivity.kt) dengan struktur komponen `@Composable` sebagai berikut:
-
-* **`ProfileScreen()`**  
-  * **Fungsi**: Kontainer utama layar profil.  
-  * **Detail**: Menggunakan layout `Column` berskorl (`verticalScroll`) yang membungkus komponen `PageHeader`, `InfoItem` (About & Aktivitas), dan `ActionCard`. Juga menerapkan `navigationBarsPadding()` agar aman dari *insets* sistem bar.
-
-* **`PageHeader()`**  
-  * **Fungsi**: Komponen header visual di bagian atas layar.  
-  * **Detail**: Menggunakan layout `Box` yang menumpuk gambar latar (`R.drawable.header_background`) berfitur efek blur (`Modifier.blur(8.dp)`), serta teks judul *"Komunitas Gaming IF UAI"* dan subjudul sambutan.
-
-* **`InfoItem(label: String, value: String)`**  
-  * **Fungsi**: Komponen kartu reusabel (`Card`) untuk menampilkan blok informasi.  
-  * **Penggunaan**:  
-    * **About**: Menjelaskan identitas dan keterbukaan komunitas untuk berbagai genre game.  
-    * **Aktivitas**: Menampilkan poin-poin kegiatan rutin yang dilakukan anggota.
-
-* **`ActionCard()`**  
-  * **Fungsi**: Komponen kartu ajakan bertindak (*Call-to-Action*).  
-  * **Detail**: Berisi teks ajakan pendaftaran serta komponen `Button` bertuliskan *"Daftar Sekarang!"*.
