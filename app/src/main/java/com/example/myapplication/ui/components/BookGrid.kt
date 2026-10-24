@@ -1,0 +1,20 @@
+package com.example.myapplication.ui.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
+import com.example.myapplication.model.Book
+
+@Composable
+fun BookGrid(books: List<Book>, onReadChange: (Int) -> Unit?) {
+    LazyVerticalGrid(columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        content = {
+            items(books.size) { index ->
+                BookCard(book = books[index], onReadChange = { onReadChange(books[index].id) })
+            }
+        })
+}
