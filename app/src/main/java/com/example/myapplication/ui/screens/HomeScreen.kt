@@ -16,9 +16,12 @@ import androidx.compose.ui.unit.dp
 import com.example.myapplication.model.Book
 import com.example.myapplication.ui.components.AddButton
 import com.example.myapplication.ui.components.BookGrid
+import kotlinx.serialization.Serializable
 
+@Serializable
+object Home
 @Composable
-fun AppBody() {
+fun HomeScreen() {
     val bookList = rememberSaveable(
         saver = listSaver(
             save = { it.toList() },
