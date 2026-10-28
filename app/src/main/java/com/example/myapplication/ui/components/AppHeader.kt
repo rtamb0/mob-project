@@ -16,6 +16,6 @@ fun AppHeader() {
         .background(MaterialTheme.colorScheme.secondary)
         .padding(top = 48.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)
     ) {
-        Text("Reading Tracker", color = MaterialTheme.colorScheme.onSecondary, style = MaterialTheme.typography.titleLarge)
+        Text("Eorzea Places", color = MaterialTheme.colorScheme.onSecondary, style = MaterialTheme.typography.titleLarge)
     }
 }

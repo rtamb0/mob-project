@@ -4,10 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Book (
+data class Place (
     val id: Int,
-    val title: String,
-    val author: String,
-    val genre: String,
-    val read: Boolean
+    val name: String,
+    val location: String,
+    val imageId: Int,
+    val description: String
 ) : Parcelable
