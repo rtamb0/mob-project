@@ -84,6 +84,7 @@ fun EditScreen(place: Place, onBack: () -> Unit) {
                             place.description = description
                             onBack()
                         },
+                        enabled = name.isNotBlank() && location.isNotBlank() && description.isNotBlank(),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Save")
