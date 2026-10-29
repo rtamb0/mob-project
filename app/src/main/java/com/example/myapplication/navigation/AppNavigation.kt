@@ -15,6 +15,8 @@ import com.example.myapplication.ui.screens.HomeScreen
 import com.example.myapplication.ui.screens.Home
 import com.example.myapplication.ui.screens.DetailScreen
 import com.example.myapplication.ui.screens.Detail
+import com.example.myapplication.ui.screens.Edit
+import com.example.myapplication.ui.screens.EditScreen
 
 @Composable
 fun AppNavigation() {
@@ -55,7 +57,17 @@ fun AppNavigation() {
             val place = placeList.find { it.id == route.id }
 
             if (place != null) {
-                DetailScreen(place, { navController.popBackStack() })
+                DetailScreen(place, { navController.popBackStack() }, { navController.navigate(Edit(id = place.id)) })
+            } else {
+                Text("Item not found")
+            }
+        }
+        composable<Edit> {  entry ->
+            val route = entry.toRoute<Edit>()
+            val place = placeList.find { it.id == route.id }
+
+            if (place != null) {
+                EditScreen(place, { navController.popBackStack() })
             } else {
                 Text("Item not found")
             }

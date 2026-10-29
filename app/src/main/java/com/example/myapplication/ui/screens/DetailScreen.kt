@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Detail(val id: Int)
 @Composable
-fun DetailScreen(place: Place, onBack: () -> Unit) {
+fun DetailScreen(place: Place, onBack: () -> Unit, onEdit: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(16.dp),
@@ -47,6 +47,12 @@ fun DetailScreen(place: Place, onBack: () -> Unit) {
                         Text(place.location, style = MaterialTheme.typography.bodySmall)
                     }
                     Text(place.description, style = MaterialTheme.typography.bodyMedium)
+                }
+                Button(
+                    onClick = onEdit,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Edit")
                 }
             }
         }
