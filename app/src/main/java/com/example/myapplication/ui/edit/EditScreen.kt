@@ -28,10 +28,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Edit(val id: Int)
 @Composable
-fun EditScreen(place: Place, onBack: () -> Unit) {
-    var name by rememberSaveable { mutableStateOf(place.name) }
-    var location by rememberSaveable { mutableStateOf(place.location) }
-    var description by rememberSaveable { mutableStateOf(place.description) }
+fun EditScreen(
+    place: Place,
+    uiState: EditUiState,
+    onNameChange: (String) -> Unit,
+    onLocationChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onBack: () -> Unit,
+    onSave: () -> Unit
+) {
 
     val scrollState = rememberScrollState()
 
@@ -59,31 +64,29 @@ fun EditScreen(place: Place, onBack: () -> Unit) {
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedTextField(
-                        value = name,
-                        onValueChange = {name = it},
+                        value = uiState.name,
+                        onValueChange = onNameChange,
                         label = { Text("Name") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
-                        value = location,
-                        onValueChange = {location = it},
+                        value = uiState.location,
+                        onValueChange = onLocationChange,
                         label = { Text("Location") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
-                        value = description,
-                        onValueChange = {description = it},
+                        value = uiState.description,
+                        onValueChange = onDescriptionChange,
                         label = { Text("Description") },
                         modifier = Modifier.fillMaxWidth()
                     )
                     Button(
                         onClick = {
-                            place.name = name
-                            place.location = location
-                            place.description = description
+                            onSave()
                             onBack()
                         },
-                        enabled = name.isNotBlank() && location.isNotBlank() && description.isNotBlank(),
+                        enabled = uiState.isFormValid,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text("Save")
