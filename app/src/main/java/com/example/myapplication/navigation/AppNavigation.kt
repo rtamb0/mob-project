@@ -11,12 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.R
 import com.example.myapplication.model.Place
-import com.example.myapplication.ui.screens.HomeScreen
-import com.example.myapplication.ui.screens.Home
-import com.example.myapplication.ui.screens.DetailScreen
-import com.example.myapplication.ui.screens.Detail
-import com.example.myapplication.ui.screens.Edit
-import com.example.myapplication.ui.screens.EditScreen
+import com.example.myapplication.ui.home.HomeScreen
+import com.example.myapplication.ui.home.Home
+import com.example.myapplication.ui.detail.DetailScreen
+import com.example.myapplication.ui.detail.Detail
+import com.example.myapplication.ui.edit.Edit
+import com.example.myapplication.ui.edit.EditScreen
 
 @Composable
 fun AppNavigation() {

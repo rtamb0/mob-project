@@ -40,13 +40,13 @@ Struktur kode proyek terorganisasi ke dalam beberapa package utama di [app/src/m
 ### Layar & Komponen UI
 * **`AppHeader()`** ([AppHeader.kt](app/src/main/java/com/example/myapplication/ui/components/AppHeader.kt))  
   Header aplikasi di bagian atas yang menampilkan judul *"Eorzea Places"*.
-* **`HomeScreen(...)`** ([HomeScreen.kt](app/src/main/java/com/example/myapplication/ui/screens/HomeScreen.kt))  
+* **`HomeScreen(...)`** ([HomeScreen.kt](app/src/main/java/com/example/myapplication/ui/home/HomeScreen.kt))  
   Layar utama yang menampilkan daftar tempat dalam bentuk kisi 2 kolom (`LazyVerticalGrid`).
 * **`PlaceCard(...)`** ([PlaceCard.kt](app/src/main/java/com/example/myapplication/ui/components/PlaceCard.kt))  
   Komponen kartu interaktif yang menampilkan gambar, nama, dan lokasi tempat.
-* **`DetailScreen(...)`** ([DetailScreen.kt](app/src/main/java/com/example/myapplication/ui/screens/DetailScreen.kt))  
+* **`DetailScreen(...)`** ([DetailScreen.kt](app/src/main/java/com/example/myapplication/ui/detail/DetailScreen.kt))  
   Layar yang menampilkan detail lengkap tempat beserta tombol *Back* dan tombol *Edit*.
-* **`EditScreen(...)`** ([EditScreen.kt](app/src/main/java/com/example/myapplication/ui/screens/EditScreen.kt))  
+* **`EditScreen(...)`** ([EditScreen.kt](app/src/main/java/com/example/myapplication/ui/edit/EditScreen.kt))  
   Layar formulir untuk mengubah data tempat dengan validasi input pada tombol *Save*.
 
 ---
