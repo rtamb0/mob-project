@@ -16,6 +16,7 @@ import com.example.myapplication.ui.home.Home
 import com.example.myapplication.ui.detail.DetailScreen
 import com.example.myapplication.ui.detail.Detail
 import com.example.myapplication.ui.edit.Edit
+import com.example.myapplication.ui.edit.EditRoute
 import com.example.myapplication.ui.edit.EditScreen
 
 @Composable
@@ -67,7 +68,7 @@ fun AppNavigation() {
             val place = placeList.find { it.id == route.id }
 
             if (place != null) {
-                EditScreen(place, { navController.popBackStack() })
+                EditRoute(place) { navController.popBackStack() }
             } else {
                 Text("Item not found")
             }
