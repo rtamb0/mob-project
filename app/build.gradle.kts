@@ -2,13 +2,25 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.4.21"
+    id("com.google.devtools.ksp")
+    id("androidx.room3")
 }
 
+room3 {
+    schemaDirectory("$projectDir/schemas")
+}
+
+
 dependencies {
-    val nav_version = "2.10.2"
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(
+        libs.androidx.datastore.preferences
+    )
+    implementation(libs.androidx.room3.runtime)
+    ksp(libs.androidx.room3.compiler)
+
+    implementation(libs.androidx.sqlite.framework)
 }
 
 android {
