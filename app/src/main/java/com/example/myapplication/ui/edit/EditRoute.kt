@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.local.entity.PlaceEntity
-import com.example.myapplication.model.Place
 
 @Composable
 fun EditRoute(place: PlaceEntity, onBack: () -> Unit) {

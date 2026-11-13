@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.myapplication.data.local.entity.PlaceEntity
-import com.example.myapplication.model.Place
 import com.example.myapplication.ui.components.PlaceCard
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
