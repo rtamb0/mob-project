@@ -29,10 +29,12 @@ class EditViewModel(
         _uiState.update { it.copy(description = value) }
     }
 
-    fun onSave() {
-        if (!_uiState.value.isFormValid) return
+    fun onSave(): PlaceEntity? {
+        if (!_uiState.value.isFormValid) return null
         place.name = _uiState.value.name
         place.location = _uiState.value.location
         place.description = _uiState.value.description
+
+        return place
     }
 }

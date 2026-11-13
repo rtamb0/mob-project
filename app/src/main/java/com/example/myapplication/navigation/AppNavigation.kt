@@ -56,7 +56,16 @@ fun AppNavigation() {
             val place = places.find { it.id == route.id }
 
             if (place != null) {
-                EditRoute(place) { navController.popBackStack() }
+                EditRoute(
+                    place = place,
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                    onSave = { updatedPlace ->
+                        if (updatedPlace == null) return@EditRoute
+                        placeViewModel.updatePlace(updatedPlace)
+                    }
+                )
             } else {
                 Text("Item not found")
             }

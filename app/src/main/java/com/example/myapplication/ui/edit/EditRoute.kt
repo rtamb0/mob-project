@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.local.entity.PlaceEntity
 
 @Composable
-fun EditRoute(place: PlaceEntity, onBack: () -> Unit) {
+fun EditRoute(place: PlaceEntity, onBack: () -> Unit, onSave: (PlaceEntity?) -> Unit) {
     val viewModel = viewModel {
         EditViewModel(place)
     }
@@ -21,6 +21,8 @@ fun EditRoute(place: PlaceEntity, onBack: () -> Unit) {
         onLocationChange = viewModel::onLocationChange,
         onDescriptionChange = viewModel::onDescriptionChange,
         onBack = onBack,
-        onSave = viewModel::onSave
+        onSave = {
+            viewModel.onSave().let(onSave)
+        }
     )
 }
