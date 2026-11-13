@@ -13,8 +13,14 @@ interface PlaceDao {
     @Query("SELECT * FROM place ORDER BY name")
     fun observeAll(): Flow<List<PlaceEntity>>
 
+    @Query("SELECT COUNT(*) FROM place")
+    suspend fun count(): Int
+
     @Insert
     suspend fun insert(item: PlaceEntity)
+
+    @Insert
+    suspend fun insertAll(items: List<PlaceEntity>)
 
     @Update
     suspend fun update(item: PlaceEntity)
