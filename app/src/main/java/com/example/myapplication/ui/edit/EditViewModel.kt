@@ -1,13 +1,14 @@
 package com.example.myapplication.ui.edit
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.data.local.entity.PlaceEntity
 import com.example.myapplication.model.Place
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class EditViewModel(
-    private val place: Place
+    private val place: PlaceEntity
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditUiState(
         name = place.name,

@@ -4,10 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myapplication.data.local.entity.PlaceEntity
 import com.example.myapplication.model.Place
 
 @Composable
-fun EditRoute(place: Place, onBack: () -> Unit) {
+fun EditRoute(place: PlaceEntity, onBack: () -> Unit) {
     val viewModel = viewModel {
         EditViewModel(place)
     }

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.data.local.entity.PlaceEntity
 import com.example.myapplication.model.Place
 import kotlinx.serialization.Serializable
 
@@ -29,7 +30,7 @@ import kotlinx.serialization.Serializable
 data class Edit(val id: Int)
 @Composable
 fun EditScreen(
-    place: Place,
+    place: PlaceEntity,
     uiState: EditUiState,
     onNameChange: (String) -> Unit,
     onLocationChange: (String) -> Unit,
